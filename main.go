@@ -1,8 +1,7 @@
 package main
 
 import (
-	. "medical-records/config"
-	"medical-records/handlers"
+	"medical-records/config"
 	"medical-records/models"
 	"net/http"
 )
@@ -10,10 +9,10 @@ import (
 func main() {
 	db, err := models.NewDB("postgres://guest:guest@localhost/medicalrecords?sslmode=disable")
 	if err != nil {
-		Logger.Panic(err)
+		config.Logger.Panic(err)
 	}
 
-	env := &handlers.Env{db}
+	env := &Env{db}
 
 	http.HandleFunc("/", env.MedicsIndex)
 	http.ListenAndServe(":3000", nil)

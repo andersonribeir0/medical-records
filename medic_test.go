@@ -1,11 +1,11 @@
 package main
 
 import (
-	"net/http"
-	"medical-records/models"
 	"github.com/satori/go.uuid"
-	"testing"
+	"medical-records/models"
+	"net/http"
 	"net/http/httptest"
+	"testing"
 )
 
 type mockDB struct{}
@@ -25,7 +25,7 @@ func TestMedicsIndex(t *testing.T) {
 	env := Env{&mockDB{}}
 
 	http.HandlerFunc(env.MedicsIndex).ServeHTTP(rec, req)
-	if rec.Code == http.StatusOK {
+	if rec.Code != http.StatusOK {
 		t.Fatalf("Invalid http code response: %v", rec.Code)
 	}
 }
