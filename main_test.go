@@ -22,9 +22,10 @@ func TestMedicsIndex(t *testing.T) {
 	rec := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/", nil)
 
-	env := Env{&mockDB{}}
+	env := &Env{new(mockDB)}
+	router := setupRouter(env)
+	router.ServeHTTP(rec,req)
 
-	http.HandlerFunc(env.MedicsIndex).ServeHTTP(rec, req)
 	if rec.Code != http.StatusOK {
 		t.Fatalf("Invalid http code response: %v", rec.Code)
 	}
