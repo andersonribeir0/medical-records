@@ -6,7 +6,6 @@ import (
 	"github.com/satori/go.uuid"
 	"testing"
 	"net/http/httptest"
-	"medical-records/handlers"
 )
 
 type mockDB struct{}
@@ -23,7 +22,7 @@ func TestMedicsIndex(t *testing.T) {
 	rec := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/", nil)
 
-	env := handlers.Env{&mockDB{}}
+	env := Env{&mockDB{}}
 
 	http.HandlerFunc(env.MedicsIndex).ServeHTTP(rec, req)
 	if rec.Code == http.StatusOK {
