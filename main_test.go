@@ -1,12 +1,12 @@
-package handlers
+package main
 
 import (
-	"github.com/satori/go.uuid"
-	. "medical-records/config"
-	"medical-records/models"
 	"net/http"
-	"net/http/httptest"
+	"medical-records/models"
+	"github.com/satori/go.uuid"
 	"testing"
+	"net/http/httptest"
+	"medical-records/handlers"
 )
 
 type mockDB struct{}
@@ -23,9 +23,10 @@ func TestMedicsIndex(t *testing.T) {
 	rec := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/", nil)
 
-	env := Env{&mockDB{}}
+	env := handlers.Env{&mockDB{}}
 
 	http.HandlerFunc(env.MedicsIndex).ServeHTTP(rec, req)
-	Logger.Println(rec.Body.String())
-	t.Log(rec.Body.String())
+	if rec.Code == http.StatusOK {
+		t.Fatalf("Invalid http code response: %v", rec.Code)
+	}
 }
